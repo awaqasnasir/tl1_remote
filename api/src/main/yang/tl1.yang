@@ -1,0 +1,292 @@
+module tl1 {
+    yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:tl1";
+    prefix "tl1";
+
+    revision "2015-01-05" {
+        description "Initial revision of tl1 model";
+    }
+   
+    rpc add-device {
+        input {
+            leaf ip {
+                type string;
+                mandatory true;
+                description "ip address of device";
+            }
+            leaf port {
+            	mandatory true;
+                type string;
+            }
+        }
+        output {
+            leaf status {
+            	type enumeration{
+        			enum "success"{
+        				value 0;
+        				description "the device added successfully";
+        			}
+        			enum "failed to connect"{
+        				value 1;
+        				description "could not connect with device";
+        			}
+     		  }
+            }
+        }
+    }
+    rpc show-device {
+        input {
+            
+        }
+        output {
+            leaf-list devices{
+            	type string;
+            	description "all connected devices";
+            }
+        }
+    }
+    
+    // rpc to send command to single device
+    rpc send-Tl1command-to-a-device {
+        input {
+        	leaf Verb {
+        		mandatory true;
+                type string;
+                description "verb for action to be performed";
+            }
+        	leaf Modeifier1 {
+        		mandatory false;
+                type string;
+                description "optional modifier for verb";
+            }
+            leaf Modeifier2 {
+            	mandatory false;
+                type string;
+                description "optional modifier for verb";
+            }
+            leaf TID {
+            	mandatory true;
+                type string;
+                description "id of targeted device which will be ip address";
+            }
+            leaf AID {
+            	mandatory false;
+                type string;
+                description "Access Modifier";
+            }
+            leaf CTAG {
+            	mandatory false;
+                type string;
+                description "correlation tag for tracking responses";
+            }
+            leaf GeneralBlock {
+            	mandatory false;
+                type string;
+                description "general block for data";
+            }
+            leaf dataBlock-E {
+            	mandatory false;
+                type string;
+                description "general block for data";
+            }
+            leaf dataBlock-F {
+            	mandatory false;
+                type string;
+                description "general block for data";
+            }
+            leaf dataBlock-G {
+            	mandatory false;
+                type string;
+                description "general block for data";
+            }
+        }
+        output {
+            leaf CommandResponse {
+                type string;
+            }
+        }
+    }
+    
+    
+//  rpc to send command to All device
+    rpc send-Tl1command-to-all-device {
+        input {
+        	leaf Verb {
+        		mandatory true;
+                type string;
+                description "verb for action to be performed";
+            }
+        	leaf Modeifier1 {
+        		mandatory false;
+                type string;
+                description "optional modifier for verb";
+            }
+            leaf Modeifier2 {
+            	mandatory false;
+                type string;
+                description "optional modifier for verb";
+            }
+            leaf AID {
+            	mandatory false;
+                type string;
+                description "access modifier ";
+            }
+            leaf CTAG {
+            	mandatory false;
+                type string;
+                description "correlation tag";
+            }
+            leaf GeneralBlock {
+            	mandatory false;
+                type string;
+                description "general block for data";
+            }
+            leaf dataBlock-E {
+            	mandatory false;
+                type string;
+                description "general block for data";
+            }
+            leaf dataBlock-F {
+            	mandatory false;
+                type string;
+                description "general block for data";
+            }
+            leaf dataBlock-G {
+            	mandatory false;
+                type string;
+                description "general block for data";
+            }
+        }
+        output {
+            leaf-list Command-Responses {
+                type string;
+                description "responses from all devices";
+            }
+        }
+    }
+    
+//  rpc to send command to multiple Device device
+    rpc send-Tl1command-to-multiple-device {
+        input {
+        	leaf Verb {
+        		mandatory true;
+                type string;
+                description "verb for action to be performed";
+            }
+        	leaf Modeifier1 {
+        		mandatory false;
+                type string;
+                description "optional modifier for verb";
+            }
+            leaf Modeifier2 {
+            	mandatory false;
+                type string;
+                description "optional modifier for verb";
+            }
+            leaf-list TIDs {
+            	
+                type string;
+                description "Give ips for devices";
+            }
+            leaf AID {
+            	mandatory false;
+                type string;
+                description "access modifier";
+            }
+            leaf CTAG {
+            	mandatory false;
+                type string;
+                description "correlation tag for tracking responses";
+            }
+            leaf GeneralBlock {
+            	mandatory false;
+                type string;
+                description "general block for data";
+            }
+            leaf dataBlock-E {
+            	mandatory false;
+                type string;
+                description "general block for data";
+            }
+            leaf dataBlock-F {
+            	mandatory false;
+                type string;
+                description "general block for data";
+            }
+            leaf dataBlock-G {
+            	mandatory false;
+                type string;
+                description "general block for data";
+            }
+        }
+        output {
+            leaf-list Command-Responses {
+                type string;
+                description "responses from multiple devices";
+            }
+        }
+    }
+    rpc reload-nodes {
+        input {
+        	leaf file-path {
+        		mandatory true;
+                type string;
+                description "path of file which contains ips and ports of network nodes";
+            }
+            
+        }
+        output {
+            leaf result {
+                type string;
+            }
+        }
+    }
+    
+    
+    container device-registry {
+        list device-registry-entry {
+        	key "ip";
+            leaf ip {
+                type string;
+            }
+            leaf port {
+                type string;
+            }
+            
+        }
+    }
+    
+    
+     
+//    notification Device{
+//    	leaf deviceStatu{
+//    		type enumeration{
+//    			enum "working"{
+//    				value 0;
+//    				description "the device is working properly";
+//    			}
+//    			enum "not_working"{
+//    				value 1;
+//    				description "the device is not working properly";
+//    			}
+//    		}
+//    	}
+//    }
+    
+    /*rpc hello-tl1 {
+    input {
+    	leaf ip {
+            type string;
+            description "Initial revision of tl1 model";
+        }
+        leaf message {
+            type string;
+        }
+    }
+    output {
+        leaf greeting {
+            type string;
+        }
+    }
+}*/
+}
